@@ -1,0 +1,24 @@
+<script>
+  import { onMount } from 'svelte';
+  var virtualAccount = "123-456-7890";
+  var deposits = [];
+  var loading = true;
+
+  onMount(async () => {
+    const res = await fetch(`/api/deposits?virtual_account=${virtualAccount}`);
+    const json = await res.json();
+    deposits = json.data || [];
+    loading = false;
+  });
+</script>
+
+{#if loading}<p>로딩중...</p>{:else}
+<table>
+<thead><tr><th>송금자</th><th>금액</th><th>입금시간</th></tr></thead>
+<tbody>
+{#each deposits as d}
+<tr><td>{d.remitter_name}</td><td>{d.amount}</td><td>{d.created_at}</td></tr>
+{/each}
+</tbody>
+</table>
+{/if}
