@@ -89,6 +89,22 @@ curl -X POST http://localhost:7001/api/auth \
 
 # 입금 내역 조회
 curl "http://localhost:7001/api/deposits?virtual_account=123-456-7890"
+
+# 입금 내역 조회 -- console
+fetch('http://localhost:7001/webhook/deposit', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    virtual_account: "123-456-7890",
+    remitter_name: "브라우저테스트2",
+    remitter_account: "110-777-666555",
+    amount: 25000
+  })
+})
+.then(response => response.text())
+.then(data => console.log(data));
 ```
 
 ## 📁 프로젝트 구조
